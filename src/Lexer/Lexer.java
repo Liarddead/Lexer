@@ -1,14 +1,28 @@
 package Lexer;
 import java.util.*;
 import java.util.regex.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 public class Lexer {
+    public List ReadFileUsingFiles() {
+            try {
+                List allLines = Files.readAllLines(Paths.get("C:\\Users\\alexa\\IdeaProjects\\Lexer\\src\\Lexer\\code.txt"));
+                return allLines;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return null;
+    }
     private static  Map<String,Pattern> lexems = new HashMap<>();
     static {
         lexems.put("VAR",Pattern.compile("[a-z][a-z0-9]*"));
         lexems.put("ASSIGN_OP",Pattern.compile("="));
         lexems.put("DIGIT",Pattern.compile("0|[1-9][0-9]*"));
         lexems.put("OP",Pattern.compile("-|\\+|/|\\*"));
-
+        lexems.put("STAPLES",Pattern.compile("\\(|\\)"));
+        lexems.put("LOGIG_SB",Pattern.compile("==|>|<|=>|<="));
 
     }
     private static ArrayList<String> restricted_list = new ArrayList<>();
@@ -47,6 +61,7 @@ public class Lexer {
                 if ((temp1[count] == ' ') || (temp1[count] == ';')) {
                     i++;
                 }
+
                 char[] temp3 = new char[count];
                 for (int j = 0; j < count; j++) {
                     temp3[j] = temp1[j];
@@ -60,8 +75,19 @@ public class Lexer {
                         }
                     }
                 }
-                Token temp = new Token(final_name, final_lexem);
-                tokens.add(temp);
+                for (String lexemeName : lexems.keySet()) {
+                    if (final_lexem == lexemeName) {
+                        Token temp = new Token(final_name, final_lexem);
+                        tokens.add(temp);
+                    }
+                }
+                if ((temp1[count] == '}') || (temp1[count] == '{')) {
+                    char stamp_temp=temp1[count];
+                    String stamp=String.valueOf(stamp_temp);
+                    Token stp = new Token("MAIN_STAPLES", stamp);
+                    tokens.add(stp);
+                    i++;
+                }
                 notfound = 0;
                 count = 0;
                 for (int j = 0; j < 20; j++) {
@@ -76,10 +102,14 @@ public class Lexer {
         return tokens;
     }
     public static void main(String[] args) {
-        String srcExample = "size= 100+ 10+300 *400;";
-        ArrayList<Token> tokens = Lexer.Start(srcExample);
-        for (int i =0;i<tokens.size();i++){
-            System.out.println(tokens.get(i).toString());
+        Lexer lex = new Lexer();
+        List<String> code_strings = lex.ReadFileUsingFiles();
+        for (int j = 0; j < code_strings.size(); j++) {
+            System.out.println("String" + (j+1));
+            ArrayList<Token> tokens = Lexer.Start(code_strings.get(j));
+            for (int i = 0; i < tokens.size(); i++) {
+                System.out.println(tokens.get(i).toString());
+            }
         }
     }
 }
