@@ -23,6 +23,8 @@ public class Lexer {
         lexems.put("OP",Pattern.compile("-|\\+|/|\\*"));
         lexems.put("STAPLES",Pattern.compile("\\(|\\)"));
         lexems.put("LOGIG_SB",Pattern.compile("==|>|<|=>|<="));
+        lexems.put("LOGIG_OP",Pattern.compile("&|\\|"));
+        lexems.put("RESTRICTED",Pattern.compile(""));
 
     }
     private static ArrayList<String> restricted_list = new ArrayList<>();
@@ -84,7 +86,7 @@ public class Lexer {
                 if ((temp1[count] == '}') || (temp1[count] == '{')) {
                     char stamp_temp=temp1[count];
                     String stamp=String.valueOf(stamp_temp);
-                    Token stp = new Token("MAIN_STAPLES", stamp);
+                    Token stp = new Token(stamp, "MAIN_STAPLES");
                     tokens.add(stp);
                     i++;
                 }

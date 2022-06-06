@@ -6,10 +6,16 @@ import java.util.regex.Pattern;
 public class Token {
     private String name;
     private String type;
+    private int token_size;
      public Token(String Name,String Type){
           name = Name;
           type = Type;
+          token_size =name.length();
       }
+
+    public int getToken_size() {
+        return token_size;
+    }
 
     public String getName() {
         return name;

@@ -6,7 +6,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Lexer lex = new Lexer();
-
+        Parser pas = new Parser();
         List<String> code_strings = lex.ReadFileUsingFiles();
         for (int j = 0; j < code_strings.size(); j++) {
             System.out.println("String " + (j+1));
@@ -14,8 +14,9 @@ public class Main {
             for (int i = 0; i < tokens.size(); i++) {
                 System.out.println(tokens.get(i).toString());
             }
-            Parser pas = new Parser(tokens);
+            pas.set_all(tokens,j);
             pas.start();
         }
+        pas.finish();
     }
 }
