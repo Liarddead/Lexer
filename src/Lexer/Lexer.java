@@ -24,7 +24,7 @@ public class Lexer {
         lexems.put("STAPLES",Pattern.compile("\\(|\\)"));
         lexems.put("LOGIG_SB",Pattern.compile("==|>|<|=>|<="));
         lexems.put("LOGIG_OP",Pattern.compile("&|\\|"));
-        lexems.put("RESTRICTED",Pattern.compile(""));
+        lexems.put("RESTRICTED",Pattern.compile("Ё"));
 
     }
     private static ArrayList<String> restricted_list = new ArrayList<>();
@@ -34,7 +34,10 @@ public class Lexer {
         restricted_list.add("if");
         restricted_list.add("for");
         restricted_list.add("while");
-
+        restricted_list.add("int");
+        restricted_list.add("string");
+        restricted_list.add("list");
+        restricted_list.add("hashmap");
     }
     public static ArrayList<Token> Start(String srcExample) {
         char[] strings = srcExample.toCharArray();

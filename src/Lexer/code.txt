@@ -1,10 +1,5 @@
-size=100+100;
-boo10=a+10;
-while(a>b)&(a>c){
-if(a>b){
-    a=10+9;
-}
-else{
-    c=10+100;
-    }
-}
+size=10+100+1*2;
+size=size+10;
+a=392+110+146+25+35+34;
+print a;
+print size;

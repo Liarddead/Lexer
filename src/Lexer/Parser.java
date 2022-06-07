@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class Parser {
-    private int stopsignal =0;
     private List <Token> tokenList;
     private Token currentToken;
     private ListIterator<Token> iterator;
@@ -51,16 +50,32 @@ public class Parser {
         boolean res3=main_staple_rigt();
         boolean res4=logic_expr_if();
         boolean res5=logic_expr_else();
+        boolean res6=print_expr();
         if (res3==true){
             main_staple_count--;
         }
-        System.out.println(main_staple_count);
-        if ((res1==false)&&(res2==false)&&(res3==false)&&(res4==false)&&(res5==false)){
+        if ((res1==false)&&(res2==false)&&(res3==false)&&(res4==false)&&(res5==false)&&(res6==false)){
             return false;
             }
         else{
             return true;
         }
+    }
+    boolean print_expr(){
+        boolean res1= restricted("print");
+        if((res1==false)){
+            if (lock_error_message==0){
+                error_message="In string "+number_of_string+ " In column "+column_size+" expected key word \"print\" ";}
+            return false;
+        }
+        lock_error_message=7;
+        boolean res2 =value();
+        if((res2==false)){
+            if (lock_error_message==7){
+                error_message="In string "+number_of_string+ " In column "+column_size+" value expected  ";}
+            return false;
+        }
+        return true;
     }
     boolean logic_expr_if(){
         boolean res1= restricted("if");
@@ -149,6 +164,26 @@ public class Parser {
             return true;
         }
     }
+    boolean type(){
+        boolean res1=restricted("int");
+        if (res1==true){
+            return true;
+        }
+        boolean res2=restricted("string");
+        if (res2==true){
+            return true;
+        }
+        boolean res3=restricted("hashmap");
+        if (res3==true){
+            return true;
+        }
+        boolean res4=restricted("list");
+        if (res4==true){
+            return true;
+        }
+        return false;
+
+    }
     boolean expr_value(){
         boolean res = value();
         if((res==false)){
@@ -158,7 +193,6 @@ public class Parser {
             }
 
         }
-        System.out.println("yes");
         boolean res1=true;
         boolean res2=true;
         while (((res1==true)&&(res2==true))) {
@@ -341,7 +375,6 @@ public class Parser {
             return result;
         }
         if (iterator.hasNext()==false){
-            stopsignal =1;
             column_size=column_size+currentToken.getToken_size();
             return result;
         }
